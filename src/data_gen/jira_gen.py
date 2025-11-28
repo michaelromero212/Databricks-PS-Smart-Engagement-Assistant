@@ -26,7 +26,7 @@ def generate_jira_data(project_id, num_tickets=20, start_date=None):
             updated_at = datetime.now()
             
         ticket = {
-            "ticket_id": f"{project_id}-{i+100}",
+            "ticket_id": f"{project_id}-{uuid.uuid4().hex[:8].upper()}",  # Unique ID per ticket
             "project_id": project_id,
             "summary": fake.sentence(nb_words=6, variable_nb_words=True),
             "description": fake.paragraph(nb_sentences=3),

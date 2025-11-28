@@ -13,7 +13,15 @@ PROJECTS = [
     {"id": "PROJ-ALPHA", "client": "Acme Corp", "name": "Cloud Migration"},
     {"id": "PROJ-BETA", "client": "Globex", "name": "Data Lake Implementation"},
     {"id": "PROJ-GAMMA", "client": "Soylent Corp", "name": "ML Ops Pipeline"},
-    {"id": "PROJ-DELTA", "client": "Initech", "name": "Real-time Analytics"}
+    {"id": "PROJ-DELTA", "client": "Initech", "name": "Real-time Analytics"},
+    {"id": "PROJ-EPSILON", "client": "Weyland-Yutani", "name": "ETL Modernization"},
+    {"id": "PROJ-ZETA", "client": "Tyrell Corp", "name": "Streaming Platform"},
+    {"id": "PROJ-ETA", "client": "Cyberdyne", "name": "Feature Store Implementation"},
+    {"id": "PROJ-THETA", "client": "Massive Dynamic", "name": "Data Governance"},
+    {"id": "PROJ-IOTA", "client": "Umbrella Corp", "name": "Unity Catalog Rollout"},
+    {"id": "PROJ-KAPPA", "client": "Buy N Large", "name": "Lakehouse Migration"},
+    {"id": "PROJ-LAMBDA", "client": "OCP", "name": "Workflow Orchestration"},
+    {"id": "PROJ-MU", "client": "Stark Industries", "name": "Serverless Analytics"}
 ]
 
 def populate_db():
@@ -40,8 +48,8 @@ def populate_db():
             "Active"
         ))
         
-        # 2. Generate & Insert Slack Messages
-        messages = generate_slack_data(proj["id"], num_messages=100)
+        # 2. Generate & Insert Slack Messages (100 → 300)
+        messages = generate_slack_data(proj["id"], num_messages=300)
         for msg in messages:
             cursor.execute('''
                 INSERT INTO slack_messages (message_id, project_id, user_id, timestamp, content, thread_id, channel_name, is_bot)
@@ -51,8 +59,8 @@ def populate_db():
                 msg["content"], msg["thread_id"], msg["channel_name"], msg["is_bot"]
             ))
             
-        # 3. Generate & Insert Jira Tickets
-        tickets = generate_jira_data(proj["id"], num_tickets=30)
+        # 3. Generate & Insert Jira Tickets (30 → 75)
+        tickets = generate_jira_data(proj["id"], num_tickets=75)
         for ticket in tickets:
             cursor.execute('''
                 INSERT INTO jira_tickets (ticket_id, project_id, summary, description, status, priority, created_at, updated_at, assignee, story_points)
@@ -63,8 +71,8 @@ def populate_db():
                 ticket["assignee"], ticket["story_points"]
             ))
             
-        # 4. Generate & Insert Meetings and Action Items
-        meetings = generate_meeting_data(proj["id"], num_meetings=10)
+        # 4. Generate & Insert Meetings and Action Items (10 → 20)
+        meetings = generate_meeting_data(proj["id"], num_meetings=20)
         for meeting in meetings:
             cursor.execute('''
                 INSERT INTO meetings (meeting_id, project_id, date, title, attendees, agenda, notes)

@@ -1,0 +1,103 @@
+{
+    "name": "PS Engagement Assistant - Daily Analysis",
+    "description": "Daily scheduled job to analyze PS engagement data and update dashboards",
+    "tags": {
+        "team": "professional-services",
+        "project": "engagement-intelligence"
+    },
+    "tasks": [
+        {
+            "task_key": "data_ingestion",
+            "description": "Ingest latest engagement data from sources",
+            "notebook_task": {
+                "notebook_path": "/Workspace/Users/<your-email>/ps_engagement_assistant/01_data_ingestion",
+                "source": "WORKSPACE"
+            },
+            "existing_cluster_id": "{{ cluster_id }}",
+            "timeout_seconds": 1800
+        },
+        {
+            "task_key": "data_processing",
+            "description": "Clean and process raw engagement data",
+            "depends_on": [
+                {
+                    "task_key": "data_ingestion"
+                }
+            ],
+            "notebook_task": {
+                "notebook_path": "/Workspace/Users/<your-email>/ps_engagement_assistant/02_data_processing",
+                "source": "WORKSPACE"
+            },
+            "existing_cluster_id": "{{ cluster_id }}",
+            "timeout_seconds": 2400
+        },
+        {
+            "task_key": "ml_pipeline",
+            "description": "Run NLP models for sentiment, topic, clustering",
+            "depends_on": [
+                {
+                    "task_key": "data_processing"
+                }
+            ],
+            "notebook_task": {
+                "notebook_path": "/Workspace/Users/<your-email>/ps_engagement_assistant/03_ml_pipeline",
+                "source": "WORKSPACE",
+                "base_parameters": {
+                    "model_version": "latest",
+                    "batch_size": "1000"
+                }
+            },
+            "new_cluster": {
+                "spark_version": "13.3.x-ml-scala2.12",
+                "node_type_id": "i3.xlarge",
+                "num_workers": 2,
+                "spark_conf": {
+                    "spark.databricks.delta.preview.enabled": "true"
+                }
+            },
+            "libraries": [
+                {
+                    "pypi": {
+                        "package": "sentence-transformers"
+                    }
+                },
+                {
+                    "pypi": {
+                        "package": "transformers"
+                    }
+                }
+            ],
+            "timeout_seconds": 3600
+        },
+        {
+            "task_key": "automation_insights",
+            "description": "Detect automation opportunities",
+            "depends_on": [
+                {
+                    "task_key": "ml_pipeline"
+                }
+            ],
+            "notebook_task": {
+                "notebook_path": "/Workspace/Users/<your-email>/ps_engagement_assistant/05_automation_insights",
+                "source": "WORKSPACE"
+            },
+            "existing_cluster_id": "{{ cluster_id }}",
+            "timeout_seconds": 1200
+        }
+    ],
+    "schedule": {
+        "quartz_cron_expression": "0 0 6 * * ?",
+        "timezone_id": "America/New_York",
+        "pause_status": "UNPAUSED"
+    },
+    "email_notifications": {
+        "on_failure": [
+            "ps-team@company.com"
+        ],
+        "on_success": [
+            "ps-team@company.com"
+        ]
+    },
+    "max_concurrent_runs": 1,
+    "format": "MULTI_TASK"
+}

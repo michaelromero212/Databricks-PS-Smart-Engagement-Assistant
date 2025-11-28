@@ -147,11 +147,46 @@ databricks configure --token
 ### Notebooks Included
 - `01_data_ingestion.py` - Ingests data from external sources to Delta Lake
 - `02_data_processing.py` - Data cleaning and feature engineering
-- `03_ml_pipeline.py` - Runs NLP models at scale
+- `03_ml_pipeline.py` - Runs NLP models at scale with **MLflow tracking**
 - `04_analytics.sql` - SQL queries for dashboard metrics
 - `05_automation_insights.py` - Detects automation opportunities
+- **`06_delta_lake_setup.py` (NEW)** - Demonstrates Delta Lake features (ACID, time travel, Z-ordering)
+- **`07_job_config.json` (NEW)** - Workflow configuration for scheduled daily runs
+
+### Advanced Databricks Integration
+
+**Delta Lake Setup (`06_delta_lake_setup.py`):**
+- Convert SQLite data to Delta format
+- Demonstrate ACID transactions and upserts
+- Show time travel capabilities for audit trails
+- Optimize tables with Z-ordering
+
+**Scheduled Workflows (`07_job_config.json`):**
+- Defines a multi-task Databricks Job
+- Schedules daily NLP analysis runs (6 AM ET)
+- Email notifications on success/failure
+- Demonstrates production-grade automation
+
+**MLflow Tracking (integrated in `03_ml_pipeline.py`):**
+- Logs model parameters (embedding model, cluster count)
+- Tracks metrics (silhouette score, inertia)
+- Versions K-Means clustering models
+- Enables model registry for deployment
+
 
 **Note:** The notebooks are designed to run on Databricks Runtime 13.0+ with ML libraries.
+
+---
+
+## 🎲 Mock Data Volume
+
+The project now includes **12 projects** with realistic engagement volumes:
+- **3,600 Slack messages** (300 per project)
+- **900 Jira tickets** (75 per project)
+- **240 meetings** (20 per project)
+- **~1,000 action items** across all engagements
+
+This volume is representative of a real PS organization over a 60-day period.
 
 ---
 
