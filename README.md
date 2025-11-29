@@ -25,19 +25,19 @@ This project demonstrates a full-stack data intelligence solution that:
 *High-level KPIs including total engagements, response times, automation potential, and client satisfaction. Features a weekly engagement trend chart and project health distribution donut chart.*
 
 ### Engagement Metrics
-![Engagement Metrics](docs/images/engagement_metrics.png)
+![Engagement Metrics](docs/images/engagement_metrics_v2.png)
 *Deep dive into request volume over time, topic distribution, and response time analysis. Helps identify spikes in demand and common request categories.*
 
 ### Sentiment Analysis
-![Sentiment Analysis](docs/images/sentiment_analysis.png)
+![Sentiment Analysis](docs/images/sentiment_analysis_v2.png)
 *Real-time monitoring of client sentiment across engagements. Gauge charts show overall sentiment health, with timeline tracking sentiment trends.*
 
 ### Automation Opportunities
-![Automation Ops](docs/images/automation_ops.png)
+![Automation Ops](docs/images/automation_ops_v2.png)
 *AI-detected automation candidates based on recurring patterns and high-frequency topics. Includes estimated time savings and implementation priority.*
 
 ### Team Capacity
-![Team Capacity](docs/images/team_capacity.png)
+![Team Capacity](docs/images/team_capacity_v2.png)
 *Resource utilization tracking to balance workloads and prevent burnout. Visualizes team capacity and allocation across projects.*
 
 ### Program Adoption & ROI
