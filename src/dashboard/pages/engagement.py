@@ -5,6 +5,7 @@ import plotly.graph_objects as go
 import pandas as pd
 import numpy as np
 from src.dashboard.styles import COLORS, CARD_STYLE, SECTION_TITLE_STYLE, CARD_HEADER_STYLE, KPI_CARD_STYLE
+from src.dashboard.components import create_data_freshness_indicator, create_sample_size_badge, create_confidence_interval_text
 
 # Mock data for visualization
 df_topics = pd.DataFrame({
@@ -20,25 +21,29 @@ df_time = pd.DataFrame({
 # Response time data with more realistic distribution
 response_times = [2, 3, 2, 5, 8, 3, 4, 2, 1, 5, 6, 3, 4, 2, 3, 5, 7, 4, 3, 2, 6, 4, 3, 5, 8, 3, 2, 4, 5, 3]
 
-def create_metric_card(title, value, subtitle, icon_color):
+def create_metric_card(title, value, subtitle, icon_color, ci_lower=None, ci_upper=None):
     return dbc.Card([
         dbc.CardBody([
             html.Div([
                 html.H4(title, className="text-muted", style={"fontSize": "0.85rem", "marginBottom": "8px"}),
-                html.H2(value, style={"fontWeight": "700", "color": icon_color, "marginBottom": "4px"}),
+                html.H2(
+                    create_confidence_interval_text(value, ci_lower or value-0.3, ci_upper or value+0.3, "hrs") if ci_lower else value,
+                    style={"fontWeight": "700", "color": icon_color, "marginBottom": "4px"}
+                ),
                 html.P(subtitle, className="text-muted small mb-0", style={"fontSize": "0.75rem"})
             ])
         ])
     ], style={**KPI_CARD_STYLE, "height": "140px"})
 
 layout = dbc.Container([
-    html.H2("Engagement Metrics", className="mb-4", style=SECTION_TITLE_STYLE),
+    html.H2("Engagement Metrics", className="mb-3", style=SECTION_TITLE_STYLE),
+    create_data_freshness_indicator(),
     
     # KPI Row
     dbc.Row([
-        dbc.Col(create_metric_card("Avg Response Time", "3.8hrs", "↓ 12% from last month", COLORS['success']), width=6, lg=3),
+        dbc.Col(create_metric_card("Avg Response Time", 3.8, "↓ 12% from last month (p<0.05)", COLORS['success'], 3.5, 4.1), width=6, lg=3),
         dbc.Col(create_metric_card("Open Requests", "47", "15 critical priority", COLORS['warning']), width=6, lg=3),
-        dbc.Col(create_metric_card("Resolution Rate", "92%", "Target: 95%", COLORS['primary']), width=6, lg=3),
+        dbc.Col(create_metric_card("Resolution Rate", "92%", "Target: 95% (n=1,240)", COLORS['primary']), width=6, lg=3),
         dbc.Col(create_metric_card("SLA Compliance", "88%", "↑ 3% this quarter", COLORS['accent']), width=6, lg=3),
     ], className="g-3 mb-4"),
     
