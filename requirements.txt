@@ -12,3 +12,6 @@ hdbscan>=0.8.33
 faker>=20.0.0
 tqdm>=4.66.0
 python-dotenv>=1.0.0
+databricks-sql-connector>=2.9.0
+pytest>=7.4.0
+pytest-cov>=4.1.0

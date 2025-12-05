@@ -1,6 +1,8 @@
 from dash import html, dcc
 import dash_bootstrap_components as dbc
 from src.dashboard.styles import HEADER_STYLE, NAV_LINK_STYLE
+from datetime import datetime
+
 
 def create_layout(app):
     navbar = dbc.Navbar(
@@ -9,7 +11,7 @@ def create_layout(app):
                 html.A(
                     dbc.Row(
                         [
-                            dbc.Col(html.Img(src="/assets/logo.png", height="30px")), # Placeholder
+                            dbc.Col(html.I(className="bi bi-graph-up-arrow", style={"fontSize": "1.5rem", "color": "#0F62FE"})),
                             dbc.Col(dbc.NavbarBrand("PS Smart Engagement Assistant", className="ms-2")),
                         ],
                         align="center",
@@ -48,4 +50,4 @@ def create_layout(app):
         dcc.Location(id="url", refresh=False),
         navbar,
         content
-    ])
+    ], id="app-container")

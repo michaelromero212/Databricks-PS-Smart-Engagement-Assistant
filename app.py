@@ -1,15 +1,27 @@
 import dash
-from dash import html, dcc
+from dash import html, callback, Input, Output, State
 import dash_bootstrap_components as dbc
-from dash.dependencies import Input, Output
 
 from src.dashboard.layout import create_layout
 from src.dashboard.pages import executive, engagement, sentiment, automation, capacity, adoption
 
-app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP, dbc.icons.BOOTSTRAP], suppress_callback_exceptions=True)
+app = dash.Dash(
+    __name__, 
+    external_stylesheets=[
+        dbc.themes.BOOTSTRAP, 
+        dbc.icons.BOOTSTRAP,
+        "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+    ], 
+    suppress_callback_exceptions=True
+)
 app.title = "Databricks PS Smart Engagement Assistant"
 
 app.layout = create_layout(app)
+
+
+# ============================================================================
+# Page Routing
+# ============================================================================
 
 @app.callback(Output("page-content", "children"), [Input("url", "pathname")])
 def render_page_content(pathname):
@@ -34,15 +46,21 @@ def render_page_content(pathname):
         className="p-3 bg-light rounded-3",
     )
 
+
+# ============================================================================
+# Navbar Toggle
+# ============================================================================
+
 @app.callback(
     Output("navbar-collapse", "is_open"),
     [Input("navbar-toggler", "n_clicks")],
-    [dash.dependencies.State("navbar-collapse", "is_open")],
+    [State("navbar-collapse", "is_open")],
 )
 def toggle_navbar_collapse(n, is_open):
     if n:
         return not is_open
     return is_open
+
 
 if __name__ == "__main__":
     app.run(debug=True, port=8050)
